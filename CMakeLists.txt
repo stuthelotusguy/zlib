@@ -7,7 +7,6 @@ set(VERSION "1.2.8")
 
 option(ASM686 "Enable building i686 assembly implementation")
 option(AMD64 "Enable building amd64 assembly implementation")
-option(ZLIB_BUILD_SHARED "Build shared zlib" ON)
 
 set(INSTALL_BIN_DIR "${CMAKE_INSTALL_PREFIX}/bin" CACHE PATH "Installation directory for executables")
 set(INSTALL_LIB_DIR "${CMAKE_INSTALL_PREFIX}/lib" CACHE PATH "Installation directory for libraries")
@@ -185,13 +184,14 @@ if(MINGW)
 endif(MINGW)
 
 if(ZLIB_BUILD_SHARED)
-  set(ZLIB_TYPE SHARED)
-else()
-  set(ZLIB_TYPE STATIC)
+  set(BUILD_SHARED_LIBS ON)
+endif()
+
+if(NOT BUILD_SHARED_LIBS)
   set(ZLIB_DLL_SRCS "")
 endif()
 
-add_library(zlib ${ZLIB_TYPE} ${ZLIB_SRCS} ${ZLIB_ASMS} ${ZLIB_DLL_SRCS} ${ZLIB_PUBLIC_HDRS} ${ZLIB_PRIVATE_HDRS})
+add_library(zlib ${ZLIB_SRCS} ${ZLIB_ASMS} ${ZLIB_DLL_SRCS} ${ZLIB_PUBLIC_HDRS} ${ZLIB_PRIVATE_HDRS})
 set_target_properties(zlib PROPERTIES DEFINE_SYMBOL ZLIB_DLL)
 set_target_properties(zlib PROPERTIES SOVERSION 1)
 
