@@ -27,6 +27,8 @@
 #endif
 #include <fcntl.h>
 
+#include "unistd.h" // LSEEK C99 error fix: https://github.com/aerys/minko/issues/167
+
 #ifdef _WIN32
 #  include <stddef.h>
 #endif
